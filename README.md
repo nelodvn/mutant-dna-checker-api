@@ -5,6 +5,7 @@ This is the ultime mutant DNA checker API, built for Magneto to rule the world.
 ## Requirements
 
 - Docker (https://docs.docker.com/get-started/)
+- docker-compose (https://docs.docker.com/compose/install/)
 - Linux (not tested on windows, please see https://docs.docker.com/docker-for-windows/install/. Apprecieate feedbacks about windows compatibility.)
 
 ## Getting Started
@@ -34,7 +35,7 @@ To get the api up and running locally, we can use docker-compose:
 
 If everything works as expected, you should open the documentation at http://localhost:8080.
 
-Available endpoints:
-> http://localhost:8080
-> http://localhost/mutant
-> http://localhost/stats
+Available endpoints are:
+- GET http://localhost:8080
+- POST http://localhost/mutant
+- GET http://localhost/stats
