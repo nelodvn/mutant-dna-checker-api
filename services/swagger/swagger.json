@@ -12,7 +12,7 @@
     }
   },
   "host" : "159.65.36.164",
-  "basePath" : "/Server-Side/MutantCheckerAPI/1.0.0",
+  "basePath" : "/",
   "tags" : [ {
     "name" : "mutants",
     "description" : "Mutant related available calls"

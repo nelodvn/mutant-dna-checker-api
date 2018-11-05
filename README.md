@@ -31,7 +31,7 @@ The coverage should be printed on the terminal session. It could be viewed in HT
 
 To get the api up and running locally, we can use docker-compose:
 
-> docker-compose up
+> $ docker-compose up
 
 If everything works as expected, you should open the documentation at http://localhost:8080.
 
@@ -39,3 +39,7 @@ Available endpoints are:
 - GET http://localhost:8080
 - POST http://localhost/mutant
 - GET http://localhost/stats
+
+### live test
+
+The app is running live @ http://159.65.36.164/ :)
