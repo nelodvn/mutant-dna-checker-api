@@ -1,0 +1,97 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Ultimate Magneto's Mutant DNA Checker API",
+    "contact" : {
+      "email" : "nelodvn@gmail.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/Server-Side/MutantCheckerAPI/1.0.0",
+  "tags" : [ {
+    "name" : "mutants",
+    "description" : "Mutant related available calls"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/mutant" : {
+      "post" : {
+        "tags" : [ "mutants" ],
+        "summary" : "check if the DNA is mutant",
+        "description" : "check if the DNA is mutant. To be mutant, a DNA must contain at least 2 repeated chains of len = 4. Save the search on DB, if DNA has never been searched before. Return 200 if the DNA is mutant, 400 if it isn't. Only accepts (A,T,C,G), if other values is inputed, return 400 bad request.",
+        "operationId" : "mutantCheck",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "DNA",
+          "description" : "the dna array",
+          "required" : false,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "format" : "string",
+              "example" : "[\"ATGCGA\",\"CAGTGC\",\"TTATGT\",\"AGAAGG\",\"CCCCTA\",\"TCACTG\"]"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "the inputed DNA is mutant"
+          },
+          "400" : {
+            "description" : "invalid input. only accept dna as string matrix, NxN, containing only (A,T,C,G)"
+          },
+          "403" : {
+            "description" : "the inputed DNA is not mutant"
+          }
+        }
+      }
+    },
+    "/stats" : {
+      "get" : {
+        "tags" : [ "mutants" ],
+        "summary" : "Get the stats of previous searches, calculating the reatio between then.",
+        "operationId" : "mutantStats",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "the inputed DNA is mutant",
+            "schema" : {
+              "$ref" : "#/definitions/Stats"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Stats" : {
+      "type" : "object",
+      "properties" : {
+        "count_mutant_dna" : {
+          "type" : "integer",
+          "example" : 40
+        },
+        "count_human_dna" : {
+          "type" : "integer",
+          "example" : 100
+        },
+        "ratio" : {
+          "type" : "number",
+          "example" : 0.4
+        }
+      },
+      "example" : {
+        "count_human_dna" : 100,
+        "count_mutant_dna" : 40,
+        "ratio" : 0.4
+      }
+    }
+  }
+}
