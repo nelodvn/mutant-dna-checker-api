@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  mutants:
+    image: nelodvn/mutants:v1.0.0
+    environment:
+      APP_SETTINGS: project.config.ProductionConfig
+      MONGO_URI: mongodb://10.132.79.52:27017/mutants
+      #- MONGO_URI_TEST=mongodb://10.132.79.52:27017/mutants_test
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    ports:
+      - '3000:3000'
+
+  nginx:
+    image: nelodvn/nginx:v1.0.0
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - mutants
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  swagger:
+    image: nelodvn/swagger:v1.0.0
+    ports:
+      - '8080:8080'
+    environment:
+      - URL=swagger.json
+    depends_on:
+      - mutants
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any

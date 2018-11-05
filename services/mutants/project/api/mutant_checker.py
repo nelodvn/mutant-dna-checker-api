@@ -13,7 +13,7 @@ class MutantChecker():
         repeated_found = 0
         for i in range(0, len(chain)):
             if chain[i] not in self.VALID_DNA:
-                raise ValueError('Error: invalid DNA. Only accepts DNA with (A, C, G, T) and with NxN dimentions. Please check your input DNA payload.')
+                raise ValueError('Error: invalid DNA. Only accepts DNA with (A, C, G, T). Please check your input DNA payload.')
             if i < len(chain)-1 and chain[i] == chain[i+1]:
                 repeated_found += 1
             else:
@@ -47,22 +47,27 @@ class MutantChecker():
             v_diagonal = np.diag(dna_matrix, k=i)
             h_diagonal = np.diag(dna_matrix, k=-i)
 
-    def isValidDNA(self, dna_matrix):
-        ''' Checks if DNA is valid. To be valid, a DNA matrix should only contains \
-            valid DNA chars (A, C, G, T) and NxN dimension.
+    def isValidDNA(self, dna):
+        ''' Checks if DNA is valid.
             Thows a ValueError exception if the matrix is not validselfself.
             If the DNA matrix is valid, does nothing. '''
 
-        if not len(dna_matrix):
-            raise ValueError('Error: DNA matrix must be informed. ')
+        try:
+            dna_matrix = np.array([list(i) for i in dna])
+        except:
+            raise ValueError('Error: DNA matrix must be informed.')
 
-        if len(dna_matrix) != len(dna_matrix[0]):
-            raise ValueError('Error: DNA matrix must be square (NxN). ')
+        if not len(dna_matrix):
+            raise ValueError('Error: DNA matrix must be informed.')
+        for i in range(0, len(dna_matrix)):
+            if len(dna_matrix) != len(dna_matrix[i]):
+                raise ValueError('Error: DNA matrix must be symmetric (NxN). ')
 
     def isMutant(self, dna):
-        matrix = np.array([list(i) for i in dna])
 
-        self.isValidDNA(matrix)
+        self.isValidDNA(dna)
+
+        matrix = np.array([list(i) for i in dna])
         self.check_horizontal(matrix)
         self.check_vertical(matrix)
         self.check_diagonal(matrix)

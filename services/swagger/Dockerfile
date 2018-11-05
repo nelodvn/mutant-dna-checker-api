@@ -10,10 +10,10 @@ RUN apt-get update \
     && rm -rf /tmp/*
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY /nginx.conf /etc/nginx/conf.d
+COPY ./services/swagger/nginx.conf /etc/nginx/conf.d
 
-COPY swagger.json /usr/share/nginx/html/swagger.json
-COPY start.sh /start.sh
+COPY ./services/swagger/swagger.json /usr/share/nginx/html/swagger.json
+COPY ./services/swagger/start.sh /start.sh
 
 RUN ["chmod", "+x", "/start.sh"]
 CMD ["/start.sh"]

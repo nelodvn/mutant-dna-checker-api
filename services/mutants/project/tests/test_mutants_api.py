@@ -2,7 +2,7 @@ import json
 
 from project import create_app, mongo
 from project.tests.base import BaseTestCase
-from project.api.mutants import MutantRequest
+from project.api.mutant_api import MutantRequest
 
 app = create_app()
 
@@ -22,7 +22,10 @@ class TestMutantApi(BaseTestCase):
             response = self.client.post('/mutant',
                                         data=json.dumps(self.formatInputPayload(self.valid_mutant_dna)),
                                         content_type='application/json')
+            data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
+            self.assertTrue(data['isMutant'])
+
 
     def test_check_invalid_mutant(self):
         '''Ensures check mutant service API returns 403 when the inputed DNA payload
@@ -31,7 +34,9 @@ class TestMutantApi(BaseTestCase):
             response = self.client.post('/mutant',
                                         data=json.dumps(self.formatInputPayload(self.valid_human_dna)),
                                         content_type='application/json')
+            data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 403)
+            self.assertFalse(data['isMutant'])
 
     def test_check_invalid_char_dna(self):
         '''Ensures check mutant service returns 400 when the inputed DNA is not valid
@@ -41,6 +46,8 @@ class TestMutantApi(BaseTestCase):
                 data=json.dumps(self.formatInputPayload(self.invalid_chars_dna)),
                 content_type='application/json')
             self.assertEqual(response.status_code, 400)
+            data = json.loads(response.data.decode())
+            self.assertEqual(data['error_message'], 'Error: invalid DNA. Only accepts DNA with (A, C, G, T). Please check your input DNA payload.')
 
     def test_check_empty_input(self):
         '''Ensures the API returns a bad input when no DNA is informed'''
@@ -53,6 +60,9 @@ class TestMutantApi(BaseTestCase):
                                         data=json.dumps({'dna': ''}),
                                         content_type='application/json')
             self.assertEqual(response.status_code, 400)
+            data = json.loads(response.data.decode())
+            self.assertEqual(data['error_message'], 'Error: DNA matrix must be informed.')
+
 
     def test_stats(self):
         '''Ensure the API /stats is working.'''
@@ -94,4 +104,4 @@ class TestMutantApi(BaseTestCase):
                 content_type='application/json')
 
         self.assertEqual(200, response.status_code)
-        self.assertEqual(1, mongo.db.mutant.find(mr.to_json()).count(), 1)
+        self.assertEqual(1, mongo.db.mutant.find(mr.to_json()).count())

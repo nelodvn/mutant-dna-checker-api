@@ -18,10 +18,10 @@ def create_app(script_info=None):
     app.config.from_object(app_settings)
 
     # factory init (instantiate) mongo
-    mongo.init_app(app, uri=os.environ.get('MONGO_URI'))
+    mongo.init_app(app, uri=os.environ['MONGO_URI'])
 
     # register blueprints
-    from project.api.mutants import mutants_blueprint
+    from project.api.mutant_api import mutants_blueprint
     app.register_blueprint(mutants_blueprint)
 
     # shell context for flask cli

@@ -4,8 +4,8 @@ services:
 
   mutants:
     build:
-      context: ./services/mutants
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/mutants/Dockerfile
     volumes:
       - './services/mutants:/src'
     ports:
@@ -26,8 +26,8 @@ services:
   nginx:
     container_name: nginx
     build:
-      context: ./services/nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/nginx/Dockerfile
     restart: always
     ports:
       - 80:80
@@ -37,8 +37,8 @@ services:
   swagger:
     container_name: swagger
     build:
-      context: ./services/swagger
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/swagger/Dockerfile
     volumes:
       - './services/swagger/swagger.json:/usr/share/nginx/html/swagger.json'
     ports:

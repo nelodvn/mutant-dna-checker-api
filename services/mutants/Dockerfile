@@ -5,13 +5,13 @@ RUN mkdir -p /src/
 WORKDIR /src
 
 # add requirements
-COPY ./requirements.txt /src/requirements.txt
+COPY ./services/mutants/requirements.txt /src/requirements.txt
 
 # install requirements
 RUN pip install -r requirements.txt
 
 # add app
-COPY . /src
+COPY ./services/mutants /src
 
 # run container entrypoint
 RUN ["chmod", "+x", "./docker-entrypoint.sh"]

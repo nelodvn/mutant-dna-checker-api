@@ -27,11 +27,11 @@ def check_mutant():
         if not mongo.db.mutant.find_one(req.to_json()):
             mongo.db.mutant.insert(req.to_json())
         if isMutant:
-            return '', 200
+            return jsonify({'isMutant': True}), 200
         else:
-            return '', 403
+            return jsonify({'isMutant': False}), 403
     except ValueError as e:
-        return '', 400
+        return jsonify({'error_message': str(e)}), 400
 
 
 @mutants_blueprint.route('/stats', methods=['GET'])
