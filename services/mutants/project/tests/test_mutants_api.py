@@ -8,6 +8,8 @@ app = create_app()
 
 
 class TestMutantApi(BaseTestCase):
+    def tearDown(self):
+        mongo.db.mutant.drop()
 
     def formatInputPayload(self, dna):
         return {'dna': dna}
@@ -36,8 +38,8 @@ class TestMutantApi(BaseTestCase):
             (only acepts A, T, G, C).'''
         with self.client:
             response = self.client.post('/mutant',
-                                        data=json.dumps(self.formatInputPayload(self.invalid_chars_dna)),
-                                        content_type='application/json')
+                data=json.dumps(self.formatInputPayload(self.invalid_chars_dna)),
+                content_type='application/json')
             self.assertEqual(response.status_code, 400)
 
     def test_check_empty_input(self):
@@ -81,7 +83,6 @@ class TestMutantApi(BaseTestCase):
             self.assertEqual(data['count_mutant_dna'], 1)
             self.assertEqual(data['ratio'], 1)
 
-
     def test_duplicated(self):
         '''Ensures the API does not insert duplicated registers to mongo DB.'''
 
@@ -89,8 +90,8 @@ class TestMutantApi(BaseTestCase):
         mongo.db.mutant.insert(mr.to_json())
         with self.client:
             response = self.client.post('/mutant',
-                                         data=json.dumps(self.formatInputPayload(self.valid_mutant_dna)),
-                                         content_type='application/json')
+                data=json.dumps(self.formatInputPayload(self.valid_mutant_dna)),
+                content_type='application/json')
 
         self.assertEqual(200, response.status_code)
         self.assertEqual(1, mongo.db.mutant.find(mr.to_json()).count(), 1)

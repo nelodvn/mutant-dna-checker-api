@@ -31,7 +31,8 @@ class TestTestingConfig(TestCase):
         self.assertTrue(app.config['TESTING'])
         self.assertFalse(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])
         self.assertFalse(app.config['DEBUG_TB_ENABLED'])
-        self.assertEqual(app.config['MONGO_URI'], os.environ.get('MONGO_URI_TEST'))
+        self.assertEqual(app.config['MONGO_URI'],
+                         os.environ.get('MONGO_URI_TEST'))
 
 
 class TestProductionConfig(TestCase):

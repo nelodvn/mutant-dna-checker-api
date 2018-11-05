@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class MutantChecker():
 
     def __init__(self):
@@ -11,6 +12,8 @@ class MutantChecker():
             based on the equalty of the next value.'''
         repeated_found = 0
         for i in range(0, len(chain)):
+            if chain[i] not in self.VALID_DNA:
+                raise ValueError('Error: invalid DNA. Only accepts DNA with (A, C, G, T) and with NxN dimentions. Please check your input DNA payload.')
             if i < len(chain)-1 and chain[i] == chain[i+1]:
                 repeated_found += 1
             else:
@@ -26,18 +29,19 @@ class MutantChecker():
 
     def check_vertical(self, dna_matrix):
         ''' Extract all vertical chains from the DNA to check'''
-        for i in range(0,len(dna_matrix)):
+        for i in range(0, len(dna_matrix)):
             self.check_chain(dna_matrix[:,i])
 
     def check_diagonal(self, dna_matrix):
         ''' Extract all diagonals chains from the DNA to check'''
         i = 0
         v_diagonal = np.diag(dna_matrix, k=i)
-        while (len(v_diagonal) >= 4): # como a atrix eh NxN, podemos confiar
+        h_diagonal = None
+        while len(v_diagonal) >= 4:  # como a atrix eh NxN, podemos confiar
             self.check_chain(v_diagonal)
             # como as diagonais k=0, k=-0 sao iguais, verificamos se i > 0
             # para evitar check repetido da primeira diagonal (0,0)
-            if i>0:
+            if i > 0:
                 self.check_chain(h_diagonal)
             i += 1
             v_diagonal = np.diag(dna_matrix, k=i)
@@ -54,12 +58,6 @@ class MutantChecker():
 
         if len(dna_matrix) != len(dna_matrix[0]):
             raise ValueError('Error: DNA matrix must be square (NxN). ')
-
-        for i in range(0, len(dna_matrix)):
-            for j in range(0, len(dna_matrix)):
-                if dna_matrix[i][j] not in self.VALID_DNA:
-                    raise ValueError('Error: invalid DNA. Only accepts DNA with (A, C, G, T) and with NxN dimentions. Please check your input DNA payload.')
-
 
     def isMutant(self, dna):
         matrix = np.array([list(i) for i in dna])

@@ -9,14 +9,17 @@ class BaseConfig:
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     MONGO_URI = os.getenv('MONGO_URI')
 
+
 class DevelopmentConfig(BaseConfig):
     """Development configuration"""
     DEBUG_TB_ENABLED = True
+
 
 class TestingConfig(BaseConfig):
     """Testing configuration"""
     MONGO_URI = os.getenv('MONGO_URI_TEST')
     TESTING = True
+
 
 class ProductionConfig(BaseConfig):
     """Production configuration"""

@@ -3,8 +3,9 @@ import os
 from flask import Flask
 from flask_pymongo import PyMongo
 
-# instantiate the db#
+# instantiate the db
 mongo = PyMongo()
+
 
 def create_app(script_info=None):
     ''' Factory pattern for flask app'''

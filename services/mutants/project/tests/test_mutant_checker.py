@@ -1,11 +1,9 @@
-import json
-
 from project import create_app
 from project.tests.base import BaseTestCase
 from project.api.mutant_checker import MutantChecker
 
-
 app = create_app()
+
 
 class TestMutantChecker(BaseTestCase):
     def test_valid_mutant_dna(self):
@@ -77,7 +75,6 @@ class TestMutantChecker(BaseTestCase):
 
         checker = MutantChecker()
         self.assertRaises(ValueError, checker.isMutant, self.invalid_size_dna)
-
 
     def test_invalid_mutant_dna_one_match_only_horizontal(self):
         '''Ensures the MutantChecker algorithm returns false when a DNA containing only one mutant chain is checked.'''
