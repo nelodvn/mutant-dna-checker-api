@@ -43,3 +43,6 @@ Available endpoints are:
 ### live test
 
 The app is running live @ http://159.65.36.164/ :)
+Check swagger specs: http://159.65.36.164:8080
+Mutant check url: http://159.65.36.164/mutant
+Stats url: http://159.65.36.164/stats
