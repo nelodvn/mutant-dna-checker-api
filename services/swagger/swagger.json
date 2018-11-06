@@ -17,7 +17,7 @@
     "name" : "mutants",
     "description" : "Mutant related available calls"
   } ],
-  "schemes" : [ "https" ],
+  "schemes" : [ "http" ],
   "paths" : {
     "/mutant" : {
       "post" : {
